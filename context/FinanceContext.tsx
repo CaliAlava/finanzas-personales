@@ -29,33 +29,55 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const refreshAll = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      storageFallback.initSeedData();
-      const [cats, g, r, txs] = await Promise.all([
-        categoriesService.getCategories(),
-        goalsService.getGoals(),
-        recurringService.getTemplates(),
-        transactionsService.getTransactions(),
-      ]);
+  const fetchFinancialData = useCallback(async () => {
+    storageFallback.initSeedData();
+    const [cats, g, r, txs] = await Promise.all([
+      categoriesService.getCategories(),
+      goalsService.getGoals(),
+      recurringService.getTemplates(),
+      transactionsService.getTransactions(),
+    ]);
+    return { cats, g, r, txs };
+  }, []);
 
+  const refreshAll = useCallback(async () => {
+    try {
+      const { cats, g, r, txs } = await fetchFinancialData();
       setCategories(cats);
       setGoals(g);
       setRecurringTemplates(r);
       setTransactions(txs);
+      setError(null);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Error al cargar datos financieros';
       setError(msg);
-    } finally {
-      setIsLoading(false);
     }
-  }, []);
+  }, [fetchFinancialData]);
 
   useEffect(() => {
-    refreshAll();
-  }, [refreshAll]);
+    let isMounted = true;
+
+    fetchFinancialData()
+      .then(({ cats, g, r, txs }) => {
+        if (isMounted) {
+          setCategories(cats);
+          setGoals(g);
+          setRecurringTemplates(r);
+          setTransactions(txs);
+          setIsLoading(false);
+        }
+      })
+      .catch((err: unknown) => {
+        if (isMounted) {
+          setError(err instanceof Error ? err.message : 'Error al cargar datos financieros');
+          setIsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [fetchFinancialData]);
 
   // Metas
   const addGoal = async (goal: SavingsGoalInsert): Promise<SavingsGoal> => {
@@ -77,7 +99,6 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
 
   const depositToGoal = async (id: string, amount: number): Promise<SavingsGoal> => {
     const updated = await goalsService.contributeToGoal(id, amount);
-    // Registrar la transacción de abono
     await transactionsService.createTransaction({
       goal_id: id,
       category_id: null,
@@ -118,7 +139,6 @@ export function FinanceProvider({ children }: { children: React.ReactNode }) {
   const addTransaction = async (tx: TransactionInsert): Promise<EnrichedTransaction> => {
     const created = await transactionsService.createTransaction(tx);
     setTransactions((prev) => [created, ...prev]);
-    // Si abonó a una meta, refrescar las metas
     if (tx.goal_id) {
       const updatedGoals = await goalsService.getGoals();
       setGoals(updatedGoals);

@@ -91,7 +91,7 @@ export function HeaderMetrics() {
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
               <PiggyBank className="h-4 w-4 text-emerald-400" />
-              "Págate a ti primero"
+              &quot;Págate a ti primero&quot;
             </span>
             <Badge variant="secondary" className="text-[10px] bg-emerald-500/10 text-emerald-400">
               Retenido

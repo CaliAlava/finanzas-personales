@@ -1,20 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { useFinance } from '@/context/FinanceContext';
 import { formatUSD } from '@/lib/utils';
 import {
-  History,
   Trash2,
   TrendingDown,
   TrendingUp,
   Target,
   Search,
-  Calendar,
 } from 'lucide-react';
 
 export function RecentTransactionsTable() {

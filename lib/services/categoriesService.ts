@@ -1,7 +1,7 @@
 import { supabase } from '@/lib/supabase';
 import type { Category } from '@/types/database.types';
 import type { ICategoriesService } from '@/types/contracts';
-import { storageFallback, INITIAL_CATEGORIES } from './storageFallback';
+import { storageFallback } from './storageFallback';
 
 class CategoriesService implements ICategoriesService {
   private hasSupabaseCredentials(): boolean {

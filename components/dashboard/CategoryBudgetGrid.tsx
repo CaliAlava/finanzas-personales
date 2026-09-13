@@ -1,9 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { useBudgetAlerts } from '@/hooks/useBudgetAlerts';
 import { formatUSD } from '@/lib/utils';
 import {
@@ -11,7 +10,6 @@ import {
   AlertTriangle,
   AlertOctagon,
   Layers,
-  ArrowRight,
 } from 'lucide-react';
 
 export function CategoryBudgetGrid() {

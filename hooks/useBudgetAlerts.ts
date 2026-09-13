@@ -22,9 +22,6 @@ export function useBudgetAlerts(): BudgetAlertsResult {
       (c) => c.type === 'variable_expense'
     );
 
-    let totalBudgetedVariables = 0;
-    let totalSpentVariables = 0;
-
     const categoryAnalysis: CategoryBudgetAnalysis[] = variableCategories.map(
       (cat) => {
         // Sumar transacciones asociadas a esta categoría
@@ -33,9 +30,6 @@ export function useBudgetAlerts(): BudgetAlertsResult {
           .reduce((sum, t) => sum + Number(t.amount), 0);
 
         const budgetLimit = Number(cat.monthly_budget_limit || 0);
-        totalBudgetedVariables += budgetLimit;
-        totalSpentVariables += spent;
-
         const remaining = budgetLimit - spent;
         const percentageUsed =
           budgetLimit > 0 ? Math.round((spent / budgetLimit) * 100) : 0;
@@ -56,6 +50,16 @@ export function useBudgetAlerts(): BudgetAlertsResult {
           status,
         };
       }
+    );
+
+    const totalBudgetedVariables = categoryAnalysis.reduce(
+      (acc, item) => acc + item.budgetLimit,
+      0
+    );
+
+    const totalSpentVariables = categoryAnalysis.reduce(
+      (acc, item) => acc + item.spent,
+      0
     );
 
     const criticalAlerts = categoryAnalysis.filter((c) => c.status === 'critical');

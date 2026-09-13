@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { QuickTransactionDrawer } from './QuickTransactionDrawer';
 import { GoalFormDialog } from './GoalFormDialog';
 import { RecurringFormDialog } from './RecurringFormDialog';
-import { Plus, Zap, Target, CalendarClock } from 'lucide-react';
+import { Zap, Target, CalendarClock } from 'lucide-react';
 
 interface QuickActionTriggerProps {
   className?: string;

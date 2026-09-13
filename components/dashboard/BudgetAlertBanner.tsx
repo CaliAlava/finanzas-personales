@@ -3,7 +3,7 @@
 import React from 'react';
 import { useBudgetAlerts } from '@/hooks/useBudgetAlerts';
 import { formatUSD } from '@/lib/utils';
-import { AlertTriangle, AlertOctagon, Info } from 'lucide-react';
+import { AlertTriangle, AlertOctagon } from 'lucide-react';
 
 export function BudgetAlertBanner() {
   const { criticalAlerts, warningAlerts } = useBudgetAlerts();

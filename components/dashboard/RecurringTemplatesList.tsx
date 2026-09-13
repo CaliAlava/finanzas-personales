@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useFinance } from '@/context/FinanceContext';
@@ -10,12 +9,10 @@ import { RecurringFormDialog } from '@/components/forms/RecurringFormDialog';
 import type { RecurringTemplate, RecurringType } from '@/types/database.types';
 import {
   CalendarClock,
-  Plus,
   TrendingDown,
   TrendingUp,
   Pencil,
   Trash2,
-  Calendar,
 } from 'lucide-react';
 
 export function RecurringTemplatesList() {

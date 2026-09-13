@@ -6,7 +6,6 @@ import type {
   RecurringTemplate,
   RecurringTemplateInsert,
   RecurringTemplateUpdate,
-  Transaction,
   TransactionInsert,
   EnrichedTransaction,
   FinancialFlowSummary,

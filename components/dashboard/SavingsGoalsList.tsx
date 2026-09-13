@@ -1,12 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { useFinance } from '@/context/FinanceContext';
-import { formatUSD, formatPercentage } from '@/lib/utils';
+import { formatUSD } from '@/lib/utils';
 import { GoalFormDialog } from '@/components/forms/GoalFormDialog';
 import { QuickTransactionDrawer } from '@/components/forms/QuickTransactionDrawer';
 import type { SavingsGoal, TermType } from '@/types/database.types';
@@ -14,7 +13,6 @@ import {
   Target,
   Plus,
   Calendar,
-  Sparkles,
   Pencil,
   Trash2,
   Coins,
@@ -65,7 +63,7 @@ export function SavingsGoalsList() {
             <h2 className="text-xl font-bold text-foreground">Metas de Ahorro</h2>
           </div>
           <p className="text-sm text-muted-foreground">
-            Filosofía "Págate a ti primero": Las cuotas mensuales se apartan antes de tus gastos variables.
+            Filosofía &quot;Págate a ti primero&quot;: Las cuotas mensuales se apartan antes de tus gastos variables.
           </p>
         </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useSyncExternalStore } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { useFinancialSummary } from '@/hooks/useFinancialSummary';
 import { formatUSD } from '@/lib/utils';
@@ -15,43 +15,48 @@ import {
 } from 'recharts';
 import { BarChart3 } from 'lucide-react';
 
+// Detección idiomática y segura de montaje en cliente sin efectos en cascada
+function useIsClient() {
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+}
+
 export function CashflowChart() {
   const summary = useFinancialSummary();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useIsClient();
 
   const data = [
     {
       name: '1. Ingresos',
       monto: summary.totalIncome,
-      color: '#10b981', // Emerald
+      color: '#10b981',
       descripcion: 'Fijos + Extras del mes',
     },
     {
       name: '2. Ahorro Metas',
       monto: summary.savingsQuotas,
-      color: '#06b6d4', // Cyan
+      color: '#06b6d4',
       descripcion: 'Cuota obligatoria no negociable',
     },
     {
       name: '3. Fijos Mes',
       monto: summary.fixedExpenses,
-      color: '#6366f1', // Indigo
+      color: '#6366f1',
       descripcion: 'Vivienda, Servicios, Seguros',
     },
     {
       name: '4. Variables',
       monto: summary.variableExpensesSpent,
-      color: '#f59e0b', // Amber
+      color: '#f59e0b',
       descripcion: 'Consumo diario registrado',
     },
     {
       name: '5. Remanente',
       monto: Math.max(0, summary.netSavingsBalance),
-      color: '#14b8a6', // Teal
+      color: '#14b8a6',
       descripcion: 'Sobrante libre disponible',
     },
   ];
